@@ -16,7 +16,18 @@ describe('Product CRUD routes tests', function () {
 
     before(function (done) {
         mockup = {
-            name: 'name'
+            name: 'ลิปติก',
+            image: 'image.png',
+            price: 120,
+            option: [
+                {
+                    name: 'สี',
+                    value: [
+                        "#01", "#02"
+                    ]
+                }
+            ]
+
         };
         credentials = {
             username: 'username',
@@ -32,18 +43,18 @@ describe('Product CRUD routes tests', function () {
         done();
     });
 
-    it('should be Product get use token', (done)=>{
+    it('should be Product get use token', (done) => {
         request(app)
-        .get('/api/products')
-        .set('Authorization', 'Bearer ' + token)
-        .expect(200)
-        .end((err, res)=>{
-            if (err) {
-                return done(err);
-            }
-            var resp = res.body;
-            done();
-        });
+            .get('/api/products')
+            .set('Authorization', 'Bearer ' + token)
+            .expect(200)
+            .end((err, res) => {
+                if (err) {
+                    return done(err);
+                }
+                var resp = res.body;
+                done();
+            });
     });
 
     it('should be Product get by id', function (done) {
@@ -67,15 +78,21 @@ describe('Product CRUD routes tests', function () {
                             return done(err);
                         }
                         var resp = res.body;
-                        assert.equal(resp.status, 200);
-                        assert.equal(resp.data.name, mockup.name);
+                        setTimeout(() => {
+                            assert.equal(resp.status, 200);
+                            assert.equal(resp.data.name, mockup.name);
+                            assert.equal(resp.data.image, mockup.image);
+                            assert.equal(resp.data.price, mockup.price);
+                            assert.equal(resp.data.option[0].name, mockup.option[0].name);
+                            assert.equal(resp.data.option[0].value, mockup.option[0].value);
+                        }, 1000);
                         done();
                     });
             });
 
     });
 
-    it('should be Product post use token', (done)=>{
+    it('should be Product post use token', (done) => {
         request(app)
             .post('/api/products')
             .set('Authorization', 'Bearer ' + token)
@@ -86,7 +103,14 @@ describe('Product CRUD routes tests', function () {
                     return done(err);
                 }
                 var resp = res.body;
-                assert.equal(resp.data.name, mockup.name);
+                setTimeout(() => {
+                    assert.equal(resp.status, 200);
+                    assert.equal(resp.data.name, mockup.name);
+                    assert.equal(resp.data.image, mockup.image);
+                    assert.equal(resp.data.price, mockup.price);
+                    assert.equal(resp.data.option[0].name, mockup.option[0].name);
+                    assert.equal(resp.data.option[0].value, mockup.option[0].value);
+                }, 1000);
                 done();
             });
     });
@@ -144,15 +168,15 @@ describe('Product CRUD routes tests', function () {
 
     });
 
-    it('should be product get not use token', (done)=>{
+    it('should be product get not use token', (done) => {
         request(app)
-        .get('/api/products')
-        .expect(403)
-        .expect({
-            status: 403,
-            message: 'User is not authorized'
-        })
-        .end(done);
+            .get('/api/products')
+            .expect(403)
+            .expect({
+                status: 403,
+                message: 'User is not authorized'
+            })
+            .end(done);
     });
 
     it('should be product post not use token', function (done) {
