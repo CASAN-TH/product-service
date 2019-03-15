@@ -9,19 +9,25 @@ var ProductSchema = new Schema({
         type: String,
         required: 'Please fill a Product name',
     },
-    image:{
-        type:String
+    image: {
+        type: String
     },
-    price:{
-        type:Number
+    price: {
+        type: Number
     },
-    option:{
-        type:[{
-            name:{
-                type:String
+    option: {
+        type: [{
+            name: {
+                type: String
             },
-            value:{
-                type:[String]
+            value: {
+                type: [
+                    {
+                        name: {
+                            type: String
+                        }
+                    }
+                ]
             }
         }]
     },
