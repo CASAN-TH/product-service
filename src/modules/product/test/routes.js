@@ -23,7 +23,13 @@ describe('Product CRUD routes tests', function () {
                 {
                     name: 'สี',
                     value: [
-                        "#01", "#02"
+                        {
+                            name: "#01"
+                        },
+                        {
+                            name: "#02"
+                        }
+
                     ]
                 }
             ]
@@ -84,7 +90,8 @@ describe('Product CRUD routes tests', function () {
                             assert.equal(resp.data.image, mockup.image);
                             assert.equal(resp.data.price, mockup.price);
                             assert.equal(resp.data.option[0].name, mockup.option[0].name);
-                            assert.equal(resp.data.option[0].value, mockup.option[0].value);
+                            assert.equal(resp.data.option[0].value.name, mockup.option[0].value.name);
+                            assert.equal(resp.data.option[1].value.name, mockup.option[1].value.name);
                         }, 1000);
                         done();
                     });
@@ -109,7 +116,8 @@ describe('Product CRUD routes tests', function () {
                     assert.equal(resp.data.image, mockup.image);
                     assert.equal(resp.data.price, mockup.price);
                     assert.equal(resp.data.option[0].name, mockup.option[0].name);
-                    assert.equal(resp.data.option[0].value, mockup.option[0].value);
+                    assert.equal(resp.data.option[0].value.name, mockup.option[0].value.name);
+                    assert.equal(resp.data.option[1].value.name, mockup.option[1].value.name);
                 }, 1000);
                 done();
             });
