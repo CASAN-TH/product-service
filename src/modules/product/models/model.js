@@ -15,6 +15,10 @@ var ProductSchema = new Schema({
     price: {
         type: Number
     },
+    reward: {
+        type: Boolean,
+        default: false
+    },
     option: {
         type: [{
             name: {
