@@ -4,7 +4,9 @@ const jwt = require('express-jwt');
 const config = require('./config');
 const app = express();
 
-var morgan = require('morgan')
+var morgan = require('morgan');
+var fs = require('fs');
+var path = require('path');
 
 var glob = require('glob'),
     path = require('path'),
@@ -17,6 +19,8 @@ morgan.token('user', function (req) {
 morgan.token('body', function (req) {
     return req.body ? JSON.stringify(req.body) : {}
 });
+
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 
 app.use(bodyParser.urlencoded({
     extended: false
@@ -42,7 +46,10 @@ app.use('/api/', jwt({
     credentialsRequired: false
 }));
 
-app.use(morgan(':date[web] username=":user" method=:method url=:url body=:body status=:status'));
+app.use(morgan(
+    ':date[web] username=":user" method=:method url=:url body=:body status=:status',
+    { stream: accessLogStream }
+));
 
 app.get('/', function (req, res) {
     res.jsonp({
