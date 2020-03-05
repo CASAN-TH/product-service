@@ -93,7 +93,6 @@ describe('Product CRUD routes tests', function () {
                             assert.equal(resp.data.price, mockup.price);
                             assert.equal(resp.data.option[0].name, mockup.option[0].name);
                             assert.equal(resp.data.option[0].value.name, mockup.option[0].value.name);
-                            assert.equal(resp.data.option[1].value.name, mockup.option[1].value.name);
                         }, 1000);
                         done();
                     });
@@ -119,7 +118,6 @@ describe('Product CRUD routes tests', function () {
                     assert.equal(resp.data.price, mockup.price);
                     assert.equal(resp.data.option[0].name, mockup.option[0].name);
                     assert.equal(resp.data.option[0].value.name, mockup.option[0].value.name);
-                    assert.equal(resp.data.option[1].value.name, mockup.option[1].value.name);
                 }, 1000);
                 done();
             });
@@ -189,7 +187,7 @@ describe('Product CRUD routes tests', function () {
                     return done(err);
                 }
                 var resp = res.body;
-                // console.log(resp)
+                //  console.log(resp)
                 assert.equal(resp.data.original_filename, 'test')
                 assert.equal(resp.data.resource_type, 'image')
                 assert.equal(resp.data.format, 'jpg')
@@ -277,7 +275,7 @@ describe('Product CRUD routes tests', function () {
     });
 
     afterEach(function (done) {
-        Product.remove().exec(done);
+        Product.deleteMany().exec(done);
     });
 
 });
