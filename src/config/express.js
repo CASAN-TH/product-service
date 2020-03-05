@@ -20,7 +20,7 @@ morgan.token('body', function (req) {
     return req.body ? JSON.stringify(req.body) : {}
 });
 
-var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
+var accessLogStream = fs.createWriteStream(path.join(__dirname,'../../',  'access.log'), { flags: 'a' });
 
 app.use(bodyParser.urlencoded({
     extended: false

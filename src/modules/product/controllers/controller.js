@@ -121,7 +121,10 @@ exports.uploadImage = function (req, res) {
     const upload = multer({ storage }).single('filename');
     upload(req, res, function (err) {
         if (err) {
-            return res.send(err)
+            return res.status(400).send({
+                status: 400,
+                message: errorHandler.getErrorMessage(err)
+            });
         }
         const path = req.file.path
         cloudinary.uploader.upload(path, (result) => {

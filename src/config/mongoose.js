@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 module.exports.connection = function (cb) {
     var MONGODB_URI = process.env.MONGO_DB_URI || process.env.MONGODB_URI || process.env.MONGODB_URI_TEST || "mongodb://localhost/database"
     // mongoose.set('debug', process.env.MONGO_DB_URI || process.env.MONGODB_URI ? false : true);
-    var db = mongoose.connect(MONGODB_URI, function (err) {
+    var db = mongoose.connect(MONGODB_URI,{ useNewUrlParser: true }, function (err) {
         if (err) {
             console.log("MongoDB Notconnected..." + err);
         } else {
