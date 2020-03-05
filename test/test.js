@@ -27,7 +27,7 @@ describe('Mongodb disconnect', function () {
 
     it('disconnected..', function (done) {
         mongooseConfig.dropDatabase(function () {
-            process.exit(0);
+            // process.exit(0);
             mongooseConfig.disconnect(done);
         });
     });

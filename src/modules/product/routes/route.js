@@ -14,6 +14,9 @@ module.exports = function (app) {
         .put(controller.update)
         .delete(controller.delete);
 
+    app.route('/api/productsimage')
+        .post(controller.uploadImage)
+
     app.param('productId', controller.getByID);
 
     /**

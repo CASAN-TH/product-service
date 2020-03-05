@@ -1,13 +1,22 @@
 'use strict';
 var mongoose = require('mongoose'),
-    model = require('../models/model'), 
+    model = require('../models/model'),
     mq = require('../../core/controllers/rabbitmq'),
     Product = mongoose.model('Product'),
     errorHandler = require('../../core/controllers/errors.server.controller'),
     _ = require('lodash');
-    
+
+var cloudinary = require("../../../config/cloudinary").cloudinary;
+
+var multer = require('multer')
+var storage = multer.diskStorage({
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+
 exports.getList = function (req, res) {
-        Product.find(function (err, datas) {
+    Product.find(function (err, datas) {
         if (err) {
             return res.status(400).send({
                 status: 400,
@@ -23,9 +32,9 @@ exports.getList = function (req, res) {
 };
 
 exports.create = function (req, res) {
-        var newProduct = new Product(req.body);
-        newProduct.createby = req.user;
-        newProduct.save(function (err, data) {
+    var newProduct = new Product(req.body);
+    newProduct.createby = req.user;
+    newProduct.save(function (err, data) {
         if (err) {
             return res.status(400).send({
                 status: 400,
@@ -107,3 +116,20 @@ exports.delete = function (req, res) {
         };
     });
 };
+
+exports.uploadImage = function (req, res) {
+    const upload = multer({ storage }).single('filename');
+    upload(req, res, function (err) {
+        if (err) {
+            return res.send(err)
+        }
+        const path = req.file.path
+        cloudinary.uploader.upload(path, (result) => {
+            // console.log(result);
+            res.json({
+                status: 200,
+                data: result
+            });
+        });
+    })
+}

@@ -49,6 +49,8 @@ describe('Product CRUD routes tests', function () {
         done();
     });
 
+    const filePath = 'images/test.jpg'
+
     it('should be Product get use token', (done) => {
         request(app)
             .get('/api/products')
@@ -174,6 +176,27 @@ describe('Product CRUD routes tests', function () {
                     .end(done);
             });
 
+    });
+
+    it('Should Be get Data URL', function (done) {
+        request(app)
+            .post('/api/productsimage')
+            .set('Authorization', 'Bearer ' + token)
+            .attach('filename', filePath)
+            .expect(200)
+            .end(function (err, res) {
+                if (err) {
+                    return done(err);
+                }
+                var resp = res.body;
+                // console.log(resp)
+                assert.equal(resp.data.original_filename, 'test')
+                assert.equal(resp.data.resource_type, 'image')
+                assert.equal(resp.data.format, 'jpg')
+                assert.notEqual(resp.data.url, '')
+                assert.notEqual(resp.data.secure_url, '')
+                done();
+            });
     });
 
     it('should be product get not use token', (done) => {
